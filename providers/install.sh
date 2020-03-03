@@ -44,3 +44,5 @@ sudo install minikube /usr/local/bin/
 minikube start --vm-driver=none
 
 minikube status
+
+#Run commands with ROOT
