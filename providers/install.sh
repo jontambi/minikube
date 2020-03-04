@@ -29,8 +29,40 @@ sudo yum -y install docker-ce docker-ce-cli containerd.io
 # Update system
 sudo yum -y update
 
+# Disable swap
+sudo swapoff -a
+
+sudo sed -i "Comentar SWAP LINE in" /etc/fstab
+
+sudo mount -a
+
 # Start Docker CE
+sudo systemctl enable docker.service
 sudo systemctl start docker
+
+# CRI-O as CRI runtime.
+sudo su -
+modprobe overlay
+modprobe br_netfilter
+
+# Setup required sysctl params, these persist across reboots.
+cat > /etc/sysctl.d/99-kubernetes-cri.conf <<EOF
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+
+sysctl --system
+
+# Install prerequisites
+yum-config-manager --add-repo=https://cbs.centos.org/repos/paas7-crio-115-release/x86_64/os/
+
+# Install CRI-O
+yum install --nogpgcheck -y cri-o
+
+# Start CRI-O
+systemctl daemon-reload
+systemctl start crio
 
 # Download minikube
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
@@ -39,8 +71,11 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 # Add minikube to $PATH
 sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
+sudo systemctl enable kubelet.service
 
 # Check minikube installtion
+sudo su -
+
 minikube start --vm-driver=none
 
 minikube status
