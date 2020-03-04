@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
     minikube.vm.box = "centos/7"
     minikube.vm.hostname = "minikubeserver"
     minikube.vm.network "forwarded_port", guest: 80, host: 8080
+    minikube.vm.network "forwarded_port", guest: 44134, host: 44134
     minikube.vm.provider "virtualbox" do |vb|
       vb.memory = "6144"
       vb.cpus = "2"
