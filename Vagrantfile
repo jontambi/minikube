@@ -16,7 +16,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "minikube" do |minikube|
     minikube.vm.box = "centos/7"
     minikube.vm.hostname = "minikubeserver"
-    minikube.vm.network "forwarded_port", guest: 80, host: 8080
     minikube.vm.network "forwarded_port", guest: 8443, host: 8443
     minikube.vm.network "forwarded_port", guest: 3000, host: 3000
     minikube.vm.provider "virtualbox" do |vb|
@@ -25,7 +24,6 @@ Vagrant.configure("2") do |config|
     end
 
     minikube.vm.provision "shell", path: "providers/install.sh"
-   # config.vm.synced_folder "CONFIG/", "/shared"
   end
 
   # Disable automatic box update checking. If you disable this, then

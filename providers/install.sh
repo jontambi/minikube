@@ -80,10 +80,3 @@ sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
 sudo cp -p minikube /usr/bin/.
 sudo systemctl enable kubelet.service
-
-# Check minikube installtion
-
-sudo minikube start --vm-driver=none
-
-sudo minikube status
-
