@@ -21,6 +21,8 @@ Máquina virtual que ejecuta **minikube** en ambiente local linux Centos/7
   
 - Ubicarse en $Downloaded_Directory/minikube:
   - cd $Downloaded_Directory/minikube
+
+- Iniciar máquina virtual
   - vagrant up
 
 - Iniciar minikube:
@@ -28,7 +30,7 @@ Máquina virtual que ejecuta **minikube** en ambiente local linux Centos/7
     - vagrant ssh
   
   - Iniciar minikube:
-    sudo minikube --vm-driver=none
+    - sudo minikube --vm-driver=none
   
   - Verificar estado:
     - sudo minikube status
