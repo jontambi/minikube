@@ -40,6 +40,13 @@ sudo mount -a
 sudo systemctl enable docker.service
 sudo systemctl start docker
 
+# Install kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+
+sudo cp -p kubectl /usr/local/bin/.
+sudo cp -p kubectl /usr/bin/.
+
 # CRI-O as CRI runtime.
 sudo su -
 modprobe overlay
@@ -71,13 +78,12 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 # Add minikube to $PATH
 sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
+sudo cp -p minikube /usr/bin/.
 sudo systemctl enable kubelet.service
 
 # Check minikube installtion
-sudo su -
 
-minikube start --vm-driver=none
+sudo minikube start --vm-driver=none
 
-minikube status
+sudo minikube status
 
-#Run commands with ROOT
